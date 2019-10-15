@@ -22,6 +22,7 @@
   </component>
   <component name="ProjectId" id="1SEvSmdDtzOdRR5t4BzSegGtYZk" />
   <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
@@ -109,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571147143562</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Проверял PyCharmGit">
+      <created>1571147370288</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1571147370288</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
