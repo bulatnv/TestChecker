@@ -130,7 +130,7 @@ dmypy.json
 build
 
 # Ignore pycharm folders
-.idea/
+
 .idea/BubbleReader.iml
 .idea/misc.xml
 .idea/workspace.xml
