@@ -1,0 +1,12 @@
+# Ignore build folders
+**/build
+*/build 
+build
+
+# Ignore pycharm folders
+.idea/
+.idea/BubbleReader.iml
+.idea/misc.xml
+.idea/workspace.xml
+__pycache__/
+venv/
