@@ -1,11 +1,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
-
-
+import core
 class Ui_MainWindow(object):
     def __init__(self):
-        self.png_files = []
+        self.jpg_files = []
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(370, 246)
@@ -49,8 +48,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        #self.pushButton.clicked.connect()
+        self.pushButton.clicked.connect(self.connect_for_pushButton_debug)
+        self.pushButton.clicked.connect(self.connect_for_pushButton_debug1)
+        self.pushButton_5.clicked.connect(self.connect_for_pushButton_debug1)
         self.pushButton_4.clicked.connect(self.connect_for_pushButton_debug)
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -64,27 +64,27 @@ class Ui_MainWindow(object):
         self.pushButton_5.setText(_translate("MainWindow", "debug1"))
     def connect_for_pushButton_debug(self, MainWindow):
 
+        global files
         try:
-            file_path = self.lineEdit.text()
-            files = os.listdir(file_path)
+            self.file_path = self.lineEdit.text()
+            files = os.listdir(self.file_path)
         except FileNotFoundError:
             pass
         for i in files:
             i = i.split(".")
             try:
-                if i[1] == "png":
-                    self.png_files.append(f"{i[0]}.png")
+                if i[1] == "jpg":
+                    self.jpg_files.append(f"{i[0]}.jpg")
             except IndexError:
                 pass
-        print("png файлы")
-        print(self.png_files)
-        print("Все файлы")
         print(files)
         files = []
         file_path = ''
         pass
     def connect_for_pushButton_debug1(self, MainWindow):
-        pass
+        for i in self.jpg_files:
+            print(f"{self.file_path}/{i}")
+            core.core(f"{self.file_path}/{i}")
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
