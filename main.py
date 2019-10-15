@@ -3,11 +3,10 @@ import sys
 import os
 import core
 
-
 class Ui_MainWindow(object):
     def __init__(self):
         self.jpg_files = []
-
+        self.file_ico = os.path.abspath('Icons_for_main\\Icon_for_button.png') 
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
@@ -31,8 +30,8 @@ class Ui_MainWindow(object):
         self.MainWindow.setMenuBar(self.menubar)
         self.MainWindow.setStatusBar(self.statusbar)
 
-        self.pushButton.setGeometry(QtCore.QRect(380, 40, 75, 23))
-        self.pushButton_2.setGeometry(QtCore.QRect(380, 110, 75, 23))
+        self.pushButton.setGeometry(QtCore.QRect(320, 40, 75, 23))
+        self.pushButton_2.setGeometry(QtCore.QRect(320, 110, 75, 23))
         self.pushButton_3.setGeometry(QtCore.QRect(70, 170, 75, 23))
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 241, 20))
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 110, 241, 20))
@@ -69,13 +68,14 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Тестировщик работ"))
         self.pushButton.setText(_translate("MainWindow", "Сохранить путь"))
-        self.pushButton_2.setText(_translate("MainWindow", "Сохранить путь"))
         self.pushButton_3.setText(_translate("MainWindow", "Проверить работы"))
         self.label.setText(_translate("MainWindow", "Путь к работам учасников"))
         self.label_2.setText(_translate("MainWindow", "Путь куда будут сохранены ответы учасников"))
-        self.pushButton_4.setText(_translate("MainWindow", "Выбор Папки"))
-        self.pushButton_5.setText(_translate("MainWindow", "Выбор Папки"))
-
+        self.pushButton_4.setIcon(QtGui.QIcon(self.file_ico))
+        self.pushButton_4.setIconSize(QtCore.QSize(20,20))
+        self.pushButton_5.setIcon(QtGui.QIcon(self.file_ico))
+        self.pushButton_5.setIconSize(QtCore.QSize(20,20))
+        self.pushButton_2.setText(_translate("MainWindow", "Сохранить путь"))
         self.pushButton_3.move(40, 170)
 
         self.pushButton.resize(self.pushButton.sizeHint())
