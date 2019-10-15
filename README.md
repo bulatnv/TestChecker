@@ -56,13 +56,16 @@ https://www.pyimagesearch.com/2018/09/17/opencv-ocr-and-text-recognition-with-te
 https://www.pyimagesearch.com/2017/02/13/recognizing-digits-with-opencv-and-python/
 
 _Распознавание текста:_
+
 https://habr.com/ru/post/466565/ 
 http://docs.openvinotoolkit.org/2019_R1/_text_recognition_0012_description_text_recognition_0012.html
 
 _Распознавание цифр:_
+
 https://habr.com/ru/company/ods/blog/335998/
 
 _Другие:_
+
 https://towardsdatascience.com/build-a-handwritten-text-recognition-system-using-tensorflow-2326a3487cd5
 https://cloud.google.com/vision/docs/handwriting#vision-document-text-detection-python
 
