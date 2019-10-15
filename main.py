@@ -75,7 +75,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.resize(self.pushButton_4.sizeHint())
         self.pushButton_5.resize(self.pushButton_5.sizeHint())
 
-    def connect_for_pushButton_debug(self, MainWindow): #Not Finish. Надо обрабоать ошибки
+    def connect_for_pushButton_debug(self, MainWindow): #Not Finish. Надо обрабоать ошибки1
         global files
         try:
             self.file_path = self.lineEdit.text()
