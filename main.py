@@ -1,11 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import os
+import core
 
 
 class Ui_MainWindow(object):
     def __init__(self):
-        self.png_files = []
+        self.jpg_files = []
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(370, 246)
@@ -49,39 +51,54 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-        #self.pushButton.clicked.connect()
+        self.pushButton_3.clicked.connect(self.connect_for_pushButton_debug1)
+        self.pushButton.clicked.connect(self.connect_for_pushButton_debug)
+        self.pushButton_5.clicked.connect(self.connect_for_pushButton_debug1)
         self.pushButton_4.clicked.connect(self.connect_for_pushButton_debug)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "1"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Тестировщик работ"))
+        self.pushButton.setText(_translate("MainWindow", "Сохранить путь"))
         self.pushButton_2.setText(_translate("MainWindow", "2"))
-        self.pushButton_3.setText(_translate("MainWindow", "3"))
+        self.pushButton_3.setText(_translate("MainWindow", "Проверить работы"))
         self.label.setText(_translate("MainWindow", "Путь к работам учасников"))
         self.label_2.setText(_translate("MainWindow", "Путь куда будут сохранены ответы учасников"))
         self.pushButton_4.setText(_translate("MainWindow", "debug"))
         self.pushButton_5.setText(_translate("MainWindow", "debug1"))
-    def connect_for_pushButton_debug(self, MainWindow):
+
+        self.pushButton_3.move(40, 170)
+
+        self.pushButton.resize(self.pushButton.sizeHint())
+        self.pushButton_2.resize(self.pushButton_2.sizeHint())
+        self.pushButton_3.resize(self.pushButton_3.sizeHint())
+        self.pushButton_4.resize(self.pushButton_4.sizeHint())
+        self.pushButton_5.resize(self.pushButton_5.sizeHint())
+
+    def connect_for_pushButton_debug(self, MainWindow): #Not Finish. Надо обрабоать ошибки1
+        global files
         try:
-            file_path = self.lineEdit.text()
-            files = os.listdir(file_path)
+            self.file_path = self.lineEdit.text()
+            files = os.listdir(self.file_path)
         except FileNotFoundError:
             pass
         for i in files:
             i = i.split(".")
             try:
-                if i[1] == "png":
-                    self.png_files.append(f"{i[0]}.png")
+                if i[1] == "jpg":
+                    self.jpg_files.append(f"{i[0]}.jpg")
             except IndexError:
                 pass
-        print("png файлы")
-        print(self.png_files)
-        print("Все файлы")
         print(files)
+        files = []
+        file_path = ''
         pass
-    def connect_for_pushButton_debug1(self, MainWindow):
-        pass
+
+    def connect_for_pushButton_debug1(self, MainWindow): #Not Finish. Надо обрабоать ошибки
+        for i in self.jpg_files:
+            print(f"{self.file_path}/{i}")
+            core.core(f"{self.file_path}/{i}")
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
