@@ -63,6 +63,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "debug"))
         self.pushButton_5.setText(_translate("MainWindow", "debug1"))
     def connect_for_pushButton_debug(self, MainWindow):
+
         try:
             file_path = self.lineEdit.text()
             files = os.listdir(file_path)
@@ -79,6 +80,8 @@ class Ui_MainWindow(object):
         print(self.png_files)
         print("Все файлы")
         print(files)
+        files = []
+        file_path = ''
         pass
     def connect_for_pushButton_debug1(self, MainWindow):
         pass
