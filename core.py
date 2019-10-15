@@ -3,19 +3,16 @@ def core(str):
     from imutils.perspective import four_point_transform
     from imutils import contours
     import numpy as np
-    import argparse
     import imutils
     import cv2
 
     # define the answer key which maps the question number
     # to the correct answer
-    ANSWER_KEY = {0: 1, 1: 4, 2: 0, 3: 3, 4: 1, 5: 1, 6: 2,
-                  7: 3, 8: 4, 9: 1, 10: 2, 11: 2, 12: 2, 13: 2,
-                  14: 3, 15: 3, 16: 3, 17: 3}
+    KEYs = {}
 
     # load the image, convert it to grayscale, blur it
     # slightly, then find edges
-    image = cv2.imread('123.jpg')
+    image = cv2.imread(str)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     edged = cv2.Canny(blurred, 75, 200)
@@ -110,25 +107,5 @@ def core(str):
             # bubbled-in answer
             if bubbled is None or total > bubbled[0]:
                 bubbled = (total, j)
-
-        # initialize the contour color and the index of the
-        # *correct* answer
-        color = (0, 0, 255)
-        k = ANSWER_KEY[q]
-
-        # check to see if the bubbled answer is correct
-        if k == bubbled[1]:
-            color = (0, 255, 0)
-            correct += 1
-
-        # draw the outline of the correct answer on the test
-        cv2.drawContours(paper, [cnts[k]], -1, color, 3)
-
-    # grab the test taker
-    score = (correct / 5.0) * 100
-    print("[INFO] score: {:.2f}%".format(score))
-    cv2.putText(paper, "{:.2f}%".format(score), (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
-    cv2.imshow("Original", image)
-    cv2.imshow("Exam", paper)
-    cv2.waitKey(0)
+        KEYs.update({q: bubbled[1]})
+    return KEYs

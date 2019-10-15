@@ -1,4 +1,6 @@
 # Byte-compiled / optimized / DLL files
+/__pycache__/
+__pycache__/core.cpython-37.pyc
 __pycache__/
 *.py[cod]
 *$py.class
@@ -137,6 +139,7 @@ build
 .idea/modules.xml
 .idea/vcs.xml
 .idea/workspace.xml
+__pycache__
 __pycache__/
 venv/
 
