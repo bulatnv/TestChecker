@@ -21,7 +21,7 @@
   <component name="ProjectId" id="1SEvSmdDtzOdRR5t4BzSegGtYZk" />
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -114,7 +114,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>84</line>
+          <line>98</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
