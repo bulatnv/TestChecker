@@ -75,8 +75,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.resize(self.pushButton_4.sizeHint())
         self.pushButton_5.resize(self.pushButton_5.sizeHint())
 
-    def connect_for_pushButton_debug(self, MainWindow):
-
+    def connect_for_pushButton_debug(self, MainWindow): #Not Finish. Надо обрабоать ошибки
         global files
         try:
             self.file_path = self.lineEdit.text()
@@ -95,11 +94,10 @@ class Ui_MainWindow(object):
         file_path = ''
         pass
 
-    def connect_for_pushButton_debug1(self, MainWindow):
+    def connect_for_pushButton_debug1(self, MainWindow): #Not Finish. Надо обрабоать ошибки
         for i in self.jpg_files:
             print(f"{self.file_path}/{i}")
             core.core(f"{self.file_path}/{i}")
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
