@@ -110,14 +110,17 @@ class Ui_MainWindow(object):
             core.core(f"{self.file_path}/{i}")
 
     def openFileNamesDialog(self):
-        dir_name = Qt.QFileDialog.getExistingDirectory(
-            None,
-            "Open Directory",
-            Qt.QDir.currentPath(),
-            Qt.QFileDialog.ShowDirsOnly | Qt.QFileDialog.DontResolveSymlinks
-        )
-        self.lineEdit.setText(dir_name)
-        self.pushButton.click()
+            dir_name = Qt.QFileDialog.getExistingDirectory(
+                None,
+                "Open Directory",
+                Qt.QDir.currentPath(),
+                Qt.QFileDialog.ShowDirsOnly | Qt.QFileDialog.DontResolveSymlinks
+            )
+            if dir_name == '':
+                pass
+            else:
+                self.lineEdit.setText(dir_name)
+                self.pushButton.click()
     def openFileNameDialog1(self):
         dir_name = Qt.QFileDialog.getExistingDirectory(
             None,
@@ -125,8 +128,11 @@ class Ui_MainWindow(object):
             Qt.QDir.currentPath(),
             Qt.QFileDialog.ShowDirsOnly | Qt.QFileDialog.DontResolveSymlinks
         )
-        self.lineEdit_2.setText(dir_name)
-        self.pushButton_2.click()
+        if dir_name == '':
+            pass
+        else:
+            self.lineEdit.setText(dir_name)
+            self.pushButton.click()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
