@@ -2,12 +2,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import os
 import core
+import xlsxwriter
 
 class Ui_MainWindow(object):
     def __init__(self):
         self.jpg_files = []
         self.file_ico = os.path.abspath('Icons_for_main\\Icon_for_button.png')
         self.file_path_save_works = ''
+        self.answers = []
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
@@ -108,7 +110,7 @@ class Ui_MainWindow(object):
     def connect_for_check_works(self):  # Not Finish. Надо обрабоать ошибки
         for i in self.jpg_files:
             print(f"{self.file_path}/{i}")
-            core.core(f"{self.file_path}/{i}")
+            self.answers.append(core.core(f"{self.file_path}/{i}"))
 
     def openFileNamesDialog(self):
             dir_name = Qt.QFileDialog.getExistingDirectory(
@@ -119,9 +121,8 @@ class Ui_MainWindow(object):
             )
             if dir_name == '':
                 pass
-            else:
+            else:   
                 self.lineEdit.setText(dir_name)
-                self.connect_for_file_with_works()
     def openFileNameDialog1(self):
         dir_name = Qt.QFileDialog.getExistingDirectory(
             None,
@@ -142,6 +143,15 @@ class Ui_MainWindow(object):
         else:
             print(self.file_path_save_works)
             print(self.file_path)
+            self.connect_for_file_with_works()
+            self.connect_for_check_works()
+            print("YES program-checker is work, answers:", self.answers)
+            self.jpg_files = ''
+            try:
+                workbook = xlsxwriter.Workbook(self.file_path_save_works + '/answers.xlsx')
+                workbook.close()
+            except xlsxwriter.exceptions.FileCreateError:
+                print(f"Permission denied: \'{self.file_path_save_works + '/answers.xlsx'}\'")
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_MainWindow()
