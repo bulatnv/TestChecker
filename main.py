@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import os
 import core
-import xlsxwriter
+import xlsxwriter #123
 
 class Ui_MainWindow(object):
     def __init__(self):
