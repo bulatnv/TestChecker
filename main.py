@@ -2,12 +2,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import os
 import core
+import glob
 import xlsxwriter #12334
 
 class Ui_MainWindow(object):
     def __init__(self):
         self.jpg_files = []
-        self.file_ico = os.path.abspath('Icons_for_main\\Icon_for_button.png')
+        self.file_ico = glob.glob("Icons_for_main")
+        self.file_ico = f"{self.file_ico}\\Icon_for_button.png"
         self.file_path_save_works = ''
         self.answers = []
     def setupUi(self):
