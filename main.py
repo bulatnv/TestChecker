@@ -94,6 +94,9 @@ class Ui_MainWindow(object):
             self.label.setFont(QtGui.QFont("Times", 8, QtGui.QFont.Bold))
             self.label.resize(self.label.sizeHint())
             self.label_2.resize(self.label_2.sizeHint())
+            self.lineEdit.setText("/home/ ")
+            self.lineEdit_2.setText("/home/")
+
         self.MainWindow.show()
 
     def connect_for_file_with_works(self):  # Not Finish. Надо обрабоать ошибки1
