@@ -3,15 +3,17 @@ import sys
 import os
 import core
 import glob
-import xlsxwriter #12334
+from pandas import DataFrame
 from sys import platform
 class Ui_MainWindow(object):
     def __init__(self):
+        self.answers_lst = []
         self.jpg_files = []
+        self.name = 'Ivan Ivanov'
         self.file_ico = glob.glob("Icons_for_main") 
         self.file_ico = f"{os.path.abspath(os.path.dirname(sys.argv[0]))}/Icons_for_main/Icon_for_button.png"
         self.file_path_save_works = ''
-        self.answers = []
+        self.answers = dict()
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
@@ -116,8 +118,11 @@ class Ui_MainWindow(object):
     def connect_for_check_works(self):  # Not Finish. Надо обрабоать ошибки
         for i in self.jpg_files:
             print(f"{self.file_path}/{i}")
-            self.answers.append(core.core(f"{self.file_path}/{i}"))
-
+            for j in core.core(f"{self.file_path}/{i}").items():
+                self.answers_lst.append(j[1])
+            self.answers[self.name] = self.answers_lst
+            self.answers_lst = []
+            #self.answers = [1,2,3,4,5,6,7]
     def openFileNamesDialog(self):
             dir_name = Qt.QFileDialog.getExistingDirectory(
                 None,
@@ -152,12 +157,12 @@ class Ui_MainWindow(object):
             self.connect_for_file_with_works()
             self.connect_for_check_works()
             print("YES program-checker is work, answers:", self.answers)
-            self.jpg_files = ''
-            try:
-                workbook = xlsxwriter.Workbook(self.file_path_save_works + '/answers.xlsx')
-                workbook.close()
-            except xlsxwriter.exceptions.FileCreateError:
-                print(f"Permission denied: \'{self.file_path_save_works + '/answers.xlsx'}\'")
+            self.jpg_files = []
+            print(self.answers)
+            df = DataFrame(self.answers)
+            print(df)
+            df.to_excel(f'{self.file_path_save_works}/answers2.xlsx',sheet_name='sheet1', index=False)
+                
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_MainWindow()
