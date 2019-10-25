@@ -4,12 +4,12 @@ import os
 import core
 import glob
 import xlsxwriter #12334
-
+from sys import platform
 class Ui_MainWindow(object):
     def __init__(self):
         self.jpg_files = []
-        self.file_ico = glob.glob("Icons_for_main")
-        self.file_ico = f"{self.file_ico}\\Icon_for_button.png"
+        self.file_ico = glob.glob("Icons_for_main") 
+        self.file_ico = f"{os.path.abspath(os.path.dirname(sys.argv[0]))}/Icons_for_main/Icon_for_button.png"
         self.file_path_save_works = ''
         self.answers = []
     def setupUi(self):
@@ -38,8 +38,8 @@ class Ui_MainWindow(object):
         #self.pushButton.setGeometry(QtCore.QRect(320, 40, 75, 23))
         #self.pushButton_2.setGeometry(QtCore.QRect(320, 110, 75, 23))
         self.pushButton_3.setGeometry(QtCore.QRect(100, 145, 75, 23))
-        self.lineEdit.setGeometry(QtCore.QRect(10, 40, 241, 20))
-        self.lineEdit_2.setGeometry(QtCore.QRect(10, 110, 241, 20))
+        self.lineEdit.setGeometry(QtCore.QRect(10, 42, 241, 23))
+        self.lineEdit_2.setGeometry(QtCore.QRect(10, 112, 241, 23))
         self.label.setGeometry(QtCore.QRect(50, 20, 141, 16))
         self.label_2.setGeometry(QtCore.QRect(10, 90, 281, 16))
         self.pushButton_4.setGeometry(QtCore.QRect(270, 110, 75, 23))
@@ -87,7 +87,11 @@ class Ui_MainWindow(object):
         self.pushButton_3.resize(self.pushButton_3.sizeHint())
         self.pushButton_4.resize(self.pushButton_4.sizeHint())
         self.pushButton_5.resize(self.pushButton_5.sizeHint())
-
+        if platform == "linux":
+            self.label_2.setFont(QtGui.QFont("Times", 8, QtGui.QFont.Bold))
+            self.label.setFont(QtGui.QFont("Times", 8, QtGui.QFont.Bold))
+            self.label.resize(self.label.sizeHint())
+            self.label_2.resize(self.label_2.sizeHint())
         self.MainWindow.show()
 
     def connect_for_file_with_works(self):  # Not Finish. Надо обрабоать ошибки1
