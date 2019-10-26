@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import os
+import csv
 import core
 import glob
 from pandas import DataFrame
@@ -18,6 +19,7 @@ class Ui_MainWindow(object):
         self.answers = dict()
 
     def setupUi(self):
+        self.anskey = {'0': 'A', '1': 'B', '2': 'C', '3': 'D', '4': 'E'}
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
         self.MainWindow.resize(320, 200)
@@ -122,10 +124,24 @@ class Ui_MainWindow(object):
         pass
 
     def connect_for_check_works(self):
+        print(f"{self.file_path}/{self.jpg_files[0]}")
+        print(core.core(f"{self.file_path}/{self.jpg_files[0]}"))
         for i in self.jpg_files:
             print(f"{self.file_path}/{i}")
             for j in core.core(f"{self.file_path}/{i}").items():
-                self.answers_lst.append(j[1])
+                try:
+                    print(self.anskey[j[1]])
+                    self.answers_lst.append(self.anskey[j[1]])
+                except KeyError:
+                    lst = []
+                    if len(j[1]) >= 2 and j[1][0] != '-':
+                        for i in j[1]:
+                            lst.append(self.anskey[i])
+                    if len(lst) == 0:
+                        lst = -1
+                    self.answers_lst.append(lst)
+                    print(lst)
+                    lst = []
             self.answers[self.name] = self.answers_lst
             self.answers_lst = []
             # self.answers = [1,2,3,4,5,6,7]
@@ -169,9 +185,7 @@ class Ui_MainWindow(object):
             self.jpg_files = []
             print(self.answers)
             try:
-                df = DataFrame(self.answers)
-                print(df)
-                df.to_excel(f'{self.file_path_save_works}/answers2.xlsx', sheet_name='sheet1', index=False)
+                pass
             except PermissionError:
                 print("Отказанно в доступе")
 

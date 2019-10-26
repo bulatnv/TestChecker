@@ -118,6 +118,8 @@ def check_bubbles(thresh):
             # bubbled-in answer
             if total > 4200:
                 ans.append(j)
+        if len(ans) == 0:
+            ans.append(-1)
         Keys[q] = ''.join(str(i) for i in ans)
     return Keys
 
@@ -134,9 +136,9 @@ def core(str):
                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     # reading names
-    name = crop_questions(black, 35, 150, 15, 25)
-    cv2.imshow("name", name)
-    cv2.waitKey()
+    # name = crop_questions(black, 35, 150, 15, 25)
+    # cv2.imshow("name", name)
+    # cv2.waitKey()
 
     # reading questions
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
@@ -149,5 +151,5 @@ def core(str):
     return answers
 
 
-KEYS = core("scan/tsets2.jpg")
+# KEYS = core("scan/tsets2.jpg")
 # print(KEYS)
