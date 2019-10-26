@@ -59,6 +59,8 @@ def crop_questions(frame, x1, x2, y1, y2):
 
 
 def check_bubbles(thresh):
+    # cv2.imshow("quiz", thresh)
+    # cv2.waitKey()
     # find contours in the thresholded image, then initialize
     # the list of contours that correspond to questions
     cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
@@ -94,9 +96,10 @@ def check_bubbles(thresh):
         # bubbled answer
         cnts = contours.sort_contours(questionCnts[i:i + 5])[0]
         bubbled = None
-
+        ans = []
         # loop over the sorted contours
         for (j, c) in enumerate(cnts):
+            ans.clear()
             # construct a mask that reveals only the current
             # "bubble" for the question
             mask = np.zeros(thresh.shape, dtype="uint8")
@@ -106,14 +109,17 @@ def check_bubbles(thresh):
             # count the number of non-zero pixels in the
             # bubble area
             mask = cv2.bitwise_and(thresh, thresh, mask=mask)
+            # cv2.imshow("maska", mask)
+            # cv2.waitKey()
             total = cv2.countNonZero(mask)
+            # print(total)
 
             # if the current total has a larger number of total
             # non-zero pixels, then we are examining the currently
             # bubbled-in answer
-            if bubbled is None or total > bubbled[0]:
-                bubbled = (total, j)
-        Keys[q] = bubbled[1]
+            if total > 4200:
+                ans.append(j)
+        Keys[q] = ans
 
     return Keys
 
@@ -139,5 +145,5 @@ def core(str):
     return answers
 
 
-KEYS = core("scan/tsets1.jpg")
+KEYS = core("scan/tsets2.jpg")
 print(KEYS)
