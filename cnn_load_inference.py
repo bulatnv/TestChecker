@@ -43,6 +43,3 @@ def process_letter_field(frame, size):
     for i in result:
         str1.append(k_labels[i])
     return ''.join(str1)
-
-# name = cv2.imread("name.jpg", cv2.IMREAD_GRAYSCALE)
-# proccess_letter_field(name)

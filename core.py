@@ -190,8 +190,9 @@ def core(str):
     for j in other_answers1:
         answers[i] = j[1]
         i += 1
-    return
+    return name, surname, fathername, answers
 
 
-# KEYS = core("scan/tsets1.jpg")
+# N, S, F, KEYS = core("scan/tsets1.jpg")
+# print(N, S, F)
 # print(KEYS)
