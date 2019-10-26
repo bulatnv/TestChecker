@@ -38,7 +38,10 @@ def proccess_letter_field(frame, size=12):
     # print(cells.shape)
     result = model.predict(cells)
     result = np.argmax(result, axis=1)
-    print(result)
+    str1 = []
+    for i in result:
+        str1.append(k_labels[i])
+    print(''.join(str1))
 
 
 name = cv2.imread("fathername.jpg", cv2.IMREAD_GRAYSCALE)
