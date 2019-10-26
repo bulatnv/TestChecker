@@ -39,7 +39,7 @@ class Ui_MainWindow(object):
 
         #self.pushButton.setGeometry(QtCore.QRect(320, 40, 75, 23))
         #self.pushButton_2.setGeometry(QtCore.QRect(320, 110, 75, 23))
-        self.pushButton_3.setGeometry(QtCore.QRect(100, 145, 75, 23))
+        self.pushButton_3.setGeometry(QtCore.QRect(90, 150, 75, 23))
         self.lineEdit.setGeometry(QtCore.QRect(10, 42, 241, 23))
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 112, 241, 23))
         self.label.setGeometry(QtCore.QRect(50, 20, 141, 16))
@@ -90,8 +90,8 @@ class Ui_MainWindow(object):
         self.pushButton_4.resize(self.pushButton_4.sizeHint())
         self.pushButton_5.resize(self.pushButton_5.sizeHint())
         if platform == "linux":
-            self.label_2.setFont(QtGui.QFont("Times", 8, QtGui.QFont.Bold))
-            self.label.setFont(QtGui.QFont("Times", 8, QtGui.QFont.Bold))
+            self.label_2.setFont(QtGui.QFont("Times", 9, QtGui.QFont.Bold))
+            self.label.setFont(QtGui.QFont("Times", 9, QtGui.QFont.Bold))
             self.label.resize(self.label.sizeHint())
             self.label_2.resize(self.label_2.sizeHint())
             self.lineEdit.setText("/home/ ")
