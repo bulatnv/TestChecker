@@ -133,6 +133,10 @@ def core(str):
     black = cv2.threshold(paper_gray, 0, 255,
                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
+    # reading names
+    name = crop_questions(black, 0, 90, 50, 290)
+    
+    # reading questions
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
     other_answers1 = check_bubbles(crop_questions(black, 120, 200, 50, 290))
     other_answers1 = other_answers1.items()
