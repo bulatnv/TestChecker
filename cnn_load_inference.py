@@ -22,13 +22,13 @@ model.summary()
 
 def proccess_letter_field(frame, size=12):
     frame = crop(frame)
-    cv2.imshow("frame", frame)
-    cv2.waitKey()
     frame = cv2.resize(frame, (size * 50, 1 * 50), cv2.INTER_CUBIC)
     letters = np.hsplit(frame, size)
     cells = []
     for l in letters:
-        cells.append(l)
+        count_white_pixels = cv2.countNonZero(l)
+        if count_white_pixels > 450:
+            cells.append(l)
     cells = np.array(cells, dtype=np.float32)
     cells = cells[:, :, :, None]
 
