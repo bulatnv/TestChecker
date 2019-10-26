@@ -174,6 +174,8 @@ def core(str):
     name = crop_input_field(black, 43, 150, 15, 28)
     cv2.imwrite("name.jpg", name)
     surname = crop_input_field(black, 44, 205, 28, 38)
+    cv2.imshow("surname", surname)
+    cv2.waitKey()
     cv2.imwrite("surname.jpg", surname)
     fathername = crop_input_field(black, 44, 205, 28, 50)
     cv2.imwrite("fathername.jpg", fathername)
@@ -194,5 +196,5 @@ def core(str):
     return answers
 
 
-KEYS = core("scan/tsets1.jpg")
+# KEYS = core("scan/tsets1.jpg")
 # print(KEYS)
