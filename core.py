@@ -130,8 +130,12 @@ def core(str):
                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
-    other_answers = check_bubbles(crop_questions(black, 120, 200, 50, 290))
-    answers.update(other_answers)
+    other_answers1 = check_bubbles(crop_questions(black, 120, 200, 50, 290))
+    other_answers1 = other_answers1.items()
+    i = len(answers) - 1
+    for j in other_answers1:
+        answers[i] = j[1]
+        i+=1
     return answers
 
 
