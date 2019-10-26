@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 import sys
 import os
 import core
@@ -168,9 +168,12 @@ class Ui_MainWindow(object):
             print("YES program-checker is work, answers:", self.answers)
             self.jpg_files = []
             print(self.answers)
-            df = DataFrame(self.answers)
-            print(df)
-            df.to_excel(f'{self.file_path_save_works}/answers2.xlsx', sheet_name='sheet1', index=False)
+            try:
+                df = DataFrame(self.answers)
+                print(df)
+                df.to_excel(f'{self.file_path_save_works}/answers2.xlsx', sheet_name='sheet1', index=False)
+            except PermissionError:
+                print("Отказанно в доступе")
 
 
 if __name__ == "__main__":
