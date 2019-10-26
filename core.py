@@ -180,7 +180,7 @@ def core(str):
     name = process_letter_field(name, 12)
     surname = process_letter_field(surname, 20)
     fathername = process_letter_field(fathername, 20)
-    print(name, surname, fathername)
+    # print(name, surname, fathername)
 
     # reading questions
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
@@ -193,5 +193,5 @@ def core(str):
     return
 
 
-KEYS = core("scan/tsets1.jpg")
+# KEYS = core("scan/tsets1.jpg")
 # print(KEYS)
