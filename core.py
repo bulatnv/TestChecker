@@ -119,7 +119,7 @@ def check_bubbles(thresh):
 
 
 def core(str):
-    image = cv2.imread('123.jpg')
+    image = cv2.imread(str)
 
     paper_color = crop_by_edges(image)
     paper_gray = cv2.cvtColor(paper_color, cv2.COLOR_BGR2GRAY)
@@ -127,15 +127,13 @@ def core(str):
     # apply Otsu's thresholding method to binarize the warped
     # piece of paper
     black = cv2.threshold(paper_gray, 0, 255,
-                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+                          cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    # cropped = cv2.rectangle(black, (110, 175), (350, 810), (255, 255, 255), 2)
-    cropped = crop_questions(black, 40, 116, 59, 273)
-    cv2.imshow("Binary", cropped)
-    cv2.waitKey()
-
-    return check_bubbles(cropped)
+    answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
+    other_answers = check_bubbles(crop_questions(black, 120, 200, 50, 290))
+    answers.update(other_answers)
+    return answers
 
 
-KEYS = core("123.jpg")
+KEYS = core("scan/tsets1.jpg")
 print(KEYS)
