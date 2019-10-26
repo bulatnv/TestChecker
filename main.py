@@ -109,7 +109,7 @@ class Ui_MainWindow(object):
         for i in files:
             i = i.split(".")
             try:
-                if i[1] == "jpg":
+                if i[1] == "jpg" or i[1] == "BMP" or i[0] == "png" or i[1] == 'bmp':
                     self.jpg_files.append(f"{i[0]}.jpg")
             except IndexError:
                 pass
