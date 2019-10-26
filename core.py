@@ -49,12 +49,22 @@ def crop_by_edges(frame):
     return four_point_transform(frame, docCnt.reshape(4, 2))
 
 
+def crop_questions(frame, x1, x2, y1, y2):
+    return frame[x1:x2, y1:y2]
+
+
 def check_bubbles(frame):
-    KEYs = {}
+    paper_color = crop_by_edges(frame)
+    paper_gray = cv2.cvtColor(paper_color, cv2.COLOR_BGR2GRAY)
+
+    # apply Otsu's thresholding method to binarize the warped
+    # piece of paper
+    thresh = cv2.threshold(paper_gray, 0, 255,
+                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     # find contours in the thresholded image, then initialize
     # the list of contours that correspond to questions
-    cnts = cv2.findContours(frame.copy(), cv2.RETR_EXTERNAL,
+    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
     questionCnts = []
@@ -77,6 +87,8 @@ def check_bubbles(frame):
     questionCnts = contours.sort_contours(questionCnts,
                                           method="top-to-bottom")[0]
 
+    Keys = {}
+
     # each question has 5 possible answers, to loop over the
     # question in batches of 5
     for (q, i) in enumerate(np.arange(0, len(questionCnts), 5)):
@@ -90,13 +102,13 @@ def check_bubbles(frame):
         for (j, c) in enumerate(cnts):
             # construct a mask that reveals only the current
             # "bubble" for the question
-            mask = np.zeros(frame.shape, dtype="uint8")
+            mask = np.zeros(thresh.shape, dtype="uint8")
             cv2.drawContours(mask, [c], -1, 255, -1)
 
             # apply the mask to the thresholded image, then
             # count the number of non-zero pixels in the
             # bubble area
-            mask = cv2.bitwise_and(frame, frame, mask=mask)
+            mask = cv2.bitwise_and(thresh, thresh, mask=mask)
             total = cv2.countNonZero(mask)
 
             # if the current total has a larger number of total
@@ -104,21 +116,18 @@ def check_bubbles(frame):
             # bubbled-in answer
             if bubbled is None or total > bubbled[0]:
                 bubbled = (total, j)
-        KEYs.update({q: bubbled[1]})
-        return KEYs
+        Keys[q] = bubbled[1]
+
+    return Keys
 
 
 def core(str):
-    # load the image, convert it to grayscale, blur it
-    # slightly, then find edges
-    image = cv2.imread(str)
-    paper = crop_by_edges(image)
-    grayImage = cv2.cvtColor(paper, cv2.COLOR_BGR2GRAY)
+    image = cv2.imread('123.jpg')
+    questions = crop_questions(image, 270, 900, 190, 430)
+    # cv2.imshow("only questions", questions)
+    # cv2.waitKey()
+    return check_bubbles(image)
 
-    thresh = cv2.threshold(grayImage, 0, 255,
-                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
-    # define the answer key which maps the question number
-    # to the correct answer
-
-    return check_bubbles(thresh)
+# KEYS = core("123.jpg")
+# print(KEYS)
