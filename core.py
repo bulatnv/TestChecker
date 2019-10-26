@@ -134,8 +134,10 @@ def core(str):
                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     # reading names
-    name = crop_questions(black, 0, 90, 50, 290)
-    
+    name = crop_questions(black, 35, 150, 15, 25)
+    cv2.imshow("name", name)
+    cv2.waitKey()
+
     # reading questions
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
     other_answers1 = check_bubbles(crop_questions(black, 120, 200, 50, 290))
@@ -147,5 +149,5 @@ def core(str):
     return answers
 
 
-#KEYS = core("scan/tsets2.jpg")
-#print(KEYS)
+KEYS = core("scan/tsets2.jpg")
+# print(KEYS)
