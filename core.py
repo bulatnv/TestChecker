@@ -132,7 +132,7 @@ def core(str):
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
     other_answers1 = check_bubbles(crop_questions(black, 120, 200, 50, 290))
     other_answers1 = other_answers1.items()
-    i = len(answers) - 1
+    i = len(answers)
     for j in other_answers1:
         answers[i] = j[1]
         i+=1
