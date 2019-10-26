@@ -1,19 +1,20 @@
-def core(str):
-    # import the necessary packages
-    from imutils.perspective import four_point_transform
-    from imutils import contours
-    import numpy as np
-    import imutils
-    import cv2
+# import the necessary packages
+from imutils.perspective import four_point_transform
+from imutils import contours
+import numpy as np
+import imutils
+import cv2
 
-    # define the answer key which maps the question number
-    # to the correct answer
-    KEYs = {}
 
-    # load the image, convert it to grayscale, blur it
-    # slightly, then find edges
-    image = cv2.imread(str)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+def rescale_frame(frame, percent=50):
+    width = int(frame.shape[1] * percent / 100)
+    height = int(frame.shape[0] * percent / 100)
+    dim = (width, height)
+    return cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+
+
+def crop_by_edges(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
     edged = cv2.Canny(blurred, 75, 200)
 
@@ -45,17 +46,15 @@ def core(str):
     # apply a four point perspective transform to both the
     # original image and grayscale image to obtain a top-down
     # birds eye view of the paper
-    paper = four_point_transform(image, docCnt.reshape(4, 2))
-    warped = four_point_transform(gray, docCnt.reshape(4, 2))
+    return four_point_transform(frame, docCnt.reshape(4, 2))
 
-    # apply Otsu's thresholding method to binarize the warped
-    # piece of paper
-    thresh = cv2.threshold(warped, 0, 255,
-                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+def check_bubbles(frame):
+    KEYs = {}
 
     # find contours in the thresholded image, then initialize
     # the list of contours that correspond to questions
-    cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+    cnts = cv2.findContours(frame.copy(), cv2.RETR_EXTERNAL,
                             cv2.CHAIN_APPROX_SIMPLE)
     cnts = imutils.grab_contours(cnts)
     questionCnts = []
@@ -78,8 +77,6 @@ def core(str):
     questionCnts = contours.sort_contours(questionCnts,
                                           method="top-to-bottom")[0]
 
-    correct = 0
-
     # each question has 5 possible answers, to loop over the
     # question in batches of 5
     for (q, i) in enumerate(np.arange(0, len(questionCnts), 5)):
@@ -93,13 +90,13 @@ def core(str):
         for (j, c) in enumerate(cnts):
             # construct a mask that reveals only the current
             # "bubble" for the question
-            mask = np.zeros(thresh.shape, dtype="uint8")
+            mask = np.zeros(frame.shape, dtype="uint8")
             cv2.drawContours(mask, [c], -1, 255, -1)
 
             # apply the mask to the thresholded image, then
             # count the number of non-zero pixels in the
             # bubble area
-            mask = cv2.bitwise_and(thresh, thresh, mask=mask)
+            mask = cv2.bitwise_and(frame, frame, mask=mask)
             total = cv2.countNonZero(mask)
 
             # if the current total has a larger number of total
@@ -108,4 +105,20 @@ def core(str):
             if bubbled is None or total > bubbled[0]:
                 bubbled = (total, j)
         KEYs.update({q: bubbled[1]})
-    return KEYs
+        return KEYs
+
+
+def core(str):
+    # load the image, convert it to grayscale, blur it
+    # slightly, then find edges
+    image = cv2.imread(str)
+    paper = crop_by_edges(image)
+    grayImage = cv2.cvtColor(paper, cv2.COLOR_BGR2GRAY)
+
+    thresh = cv2.threshold(grayImage, 0, 255,
+                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+    # define the answer key which maps the question number
+    # to the correct answer
+
+    return check_bubbles(thresh)
