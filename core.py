@@ -194,5 +194,5 @@ def core(str):
     return answers
 
 
-KEYS = core("scan/tsets2.jpg")
+KEYS = core("scan/tsets1.jpg")
 # print(KEYS)
