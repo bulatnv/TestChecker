@@ -5,23 +5,26 @@ import core
 import glob
 from pandas import DataFrame
 from sys import platform
+
+
 class Ui_MainWindow(object):
     def __init__(self):
         self.answers_lst = []
         self.jpg_files = []
         self.name = 'Ivan Ivanov'
-        self.file_ico = glob.glob("Icons_for_main") 
+        self.file_ico = glob.glob("Icons_for_main")
         self.file_ico = f"{os.path.abspath(os.path.dirname(sys.argv[0]))}/Icons_for_main/Icon_for_button.png"
         self.file_path_save_works = ''
         self.answers = dict()
+
     def setupUi(self):
         self.MainWindow = QtWidgets.QMainWindow()
         self.MainWindow.setObjectName("MainWindow")
         self.MainWindow.resize(320, 200)
 
         self.centralwidget = QtWidgets.QWidget(self.MainWindow)
-        #self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        #self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        # self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        # self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit_2 = QtWidgets.QLineEdit(self.centralwidget)
@@ -37,8 +40,8 @@ class Ui_MainWindow(object):
         self.MainWindow.setMenuBar(self.menubar)
         self.MainWindow.setStatusBar(self.statusbar)
 
-        #self.pushButton.setGeometry(QtCore.QRect(320, 40, 75, 23))
-        #self.pushButton_2.setGeometry(QtCore.QRect(320, 110, 75, 23))
+        # self.pushButton.setGeometry(QtCore.QRect(320, 40, 75, 23))
+        # self.pushButton_2.setGeometry(QtCore.QRect(320, 110, 75, 23))
         self.pushButton_3.setGeometry(QtCore.QRect(90, 150, 75, 23))
         self.lineEdit.setGeometry(QtCore.QRect(10, 42, 241, 23))
         self.lineEdit_2.setGeometry(QtCore.QRect(10, 112, 241, 23))
@@ -57,8 +60,8 @@ class Ui_MainWindow(object):
         self.pushButton_5.setObjectName("pushButton_5")
         self.menubar.setObjectName("menubar")
         self.statusbar.setObjectName("statusbar")
-        #self.pushButton_2.setObjectName("pushButton_2")
-        #self.pushButton.setObjectName("pushButton")
+        # self.pushButton_2.setObjectName("pushButton_2")
+        # self.pushButton.setObjectName("pushButton")
         self.centralwidget.setObjectName("centralwidget")
 
         self.lineEdit.setText("C:/")
@@ -67,25 +70,25 @@ class Ui_MainWindow(object):
         self.retranslateUi(self.MainWindow)
         QtCore.QMetaObject.connectSlotsByName(self.MainWindow)
         self.pushButton_3.clicked.connect(self.work_with_works)
-        #self.pushButton.clicked.connect(self.connect_for_file_with_works)
+        # self.pushButton.clicked.connect(self.connect_for_file_with_works)
         self.pushButton_5.clicked.connect(self.openFileNamesDialog)
         self.pushButton_4.clicked.connect(self.openFileNameDialog1)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Тестировщик работ"))
-        #self.pushButton.setText(_translate("MainWindow", "Сохранить путь"))
+        # self.pushButton.setText(_translate("MainWindow", "Сохранить путь"))
         self.pushButton_3.setText(_translate("MainWindow", "Проверить работы"))
         self.label.setText(_translate("MainWindow", "Путь к работам учасников"))
         self.label_2.setText(_translate("MainWindow", "Путь куда будут сохранены ответы учасников"))
         self.pushButton_4.setIcon(QtGui.QIcon(self.file_ico))
-        self.pushButton_4.setIconSize(QtCore.QSize(20,20))
+        self.pushButton_4.setIconSize(QtCore.QSize(20, 20))
         self.pushButton_5.setIcon(QtGui.QIcon(self.file_ico))
-        self.pushButton_5.setIconSize(QtCore.QSize(20,20))
-        #self.pushButton_2.setText(_translate("MainWindow", "Сохранить путь"))
+        self.pushButton_5.setIconSize(QtCore.QSize(20, 20))
+        # self.pushButton_2.setText(_translate("MainWindow", "Сохранить путь"))
 
-
-        #self.pushButton.resize(self.pushButton.sizeHint())
-        #self.pushButton_2.resize(self.pushButton_2.sizeHint())
+        # self.pushButton.resize(self.pushButton.sizeHint())
+        # self.pushButton_2.resize(self.pushButton_2.sizeHint())
         self.pushButton_3.resize(self.pushButton_3.sizeHint())
         self.pushButton_4.resize(self.pushButton_4.sizeHint())
         self.pushButton_5.resize(self.pushButton_5.sizeHint())
@@ -109,7 +112,7 @@ class Ui_MainWindow(object):
         for i in files:
             i = i.split(".")
             try:
-                if i[1] == "jpg" or i[1] == "BMP" or i[0] == "png" or i[1] == 'bmp':
+                if i[1] == "jpg" or i[1] == "BMP" or i[1] == "png" or i[1] == 'bmp':
                     self.jpg_files.append(f"{i[0]}.jpg")
             except IndexError:
                 pass
@@ -118,25 +121,27 @@ class Ui_MainWindow(object):
         file_path = ''
         pass
 
-    def connect_for_check_works(self):  # Not Finish. Надо обрабоать ошибки
+    def connect_for_check_works(self):
         for i in self.jpg_files:
             print(f"{self.file_path}/{i}")
             for j in core.core(f"{self.file_path}/{i}").items():
                 self.answers_lst.append(j[1])
             self.answers[self.name] = self.answers_lst
             self.answers_lst = []
-            #self.answers = [1,2,3,4,5,6,7]
+            # self.answers = [1,2,3,4,5,6,7]
+
     def openFileNamesDialog(self):
-            dir_name = Qt.QFileDialog.getExistingDirectory(
-                None,
-                "Open Directory",
-                Qt.QDir.currentPath(),
-                Qt.QFileDialog.ShowDirsOnly | Qt.QFileDialog.DontResolveSymlinks
-            )
-            if dir_name == '':
-                pass
-            else:   
-                self.lineEdit.setText(dir_name)
+        dir_name = Qt.QFileDialog.getExistingDirectory(
+            None,
+            "Open Directory",
+            Qt.QDir.currentPath(),
+            Qt.QFileDialog.ShowDirsOnly | Qt.QFileDialog.DontResolveSymlinks
+        )
+        if dir_name == '':
+            pass
+        else:
+            self.lineEdit.setText(dir_name)
+
     def openFileNameDialog1(self):
         dir_name = Qt.QFileDialog.getExistingDirectory(
             None,
@@ -149,6 +154,7 @@ class Ui_MainWindow(object):
         else:
             self.lineEdit_2.setText(dir_name)
             self.file_path_save_works = dir_name
+
     def work_with_works(self):
         self.file_path = self.lineEdit.text()
         self.file_path_save_works = self.lineEdit_2.text()
@@ -164,8 +170,9 @@ class Ui_MainWindow(object):
             print(self.answers)
             df = DataFrame(self.answers)
             print(df)
-            df.to_excel(f'{self.file_path_save_works}/answers2.xlsx',sheet_name='sheet1', index=False)
-                
+            df.to_excel(f'{self.file_path_save_works}/answers2.xlsx', sheet_name='sheet1', index=False)
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_MainWindow()
