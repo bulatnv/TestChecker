@@ -87,19 +87,18 @@ def check_bubbles(thresh):
                                           method="top-to-bottom")[0]
 
     Keys = {}
-
+    ans = []
     # each question has 5 possible answers, to loop over the
     # question in batches of 5
     for (q, i) in enumerate(np.arange(0, len(questionCnts), 5)):
+        ans = []
         # sort the contours for the current question from
         # left to right, then initialize the index of the
         # bubbled answer
         cnts = contours.sort_contours(questionCnts[i:i + 5])[0]
         bubbled = None
-        ans = []
         # loop over the sorted contours
         for (j, c) in enumerate(cnts):
-            ans.clear()
             # construct a mask that reveals only the current
             # "bubble" for the question
             mask = np.zeros(thresh.shape, dtype="uint8")
@@ -119,8 +118,7 @@ def check_bubbles(thresh):
             # bubbled-in answer
             if total > 4200:
                 ans.append(j)
-        Keys[q] = ans
-
+        Keys[q] = ''.join(str(i) for i in ans)
     return Keys
 
 
@@ -145,5 +143,5 @@ def core(str):
     return answers
 
 
-KEYS = core("scan/tsets2.jpg")
-print(KEYS)
+#KEYS = core("scan/tsets2.jpg")
+#print(KEYS)
