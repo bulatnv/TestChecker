@@ -49,6 +49,38 @@ def crop_by_edges(frame):
     return four_point_transform(frame, docCnt.reshape(4, 2))
 
 
+def crop_by_lines(frame):
+    # find contours in the edge map, then initialize
+    # the contour that corresponds to the document
+    cnts = cv2.findContours(frame.copy(), cv2.RETR_EXTERNAL,
+                            cv2.CHAIN_APPROX_SIMPLE)
+    cnts = imutils.grab_contours(cnts)
+    docCnt = None
+
+    # ensure that at least one contour was found
+    if len(cnts) > 0:
+        # sort the contours according to their size in
+        # descending order
+        cnts = sorted(cnts, key=cv2.contourArea, reverse=True)
+
+        # loop over the sorted contours
+        for c in cnts:
+            # approximate the contour
+            peri = cv2.arcLength(c, True)
+            approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+
+            # if our approximated contour has four points,
+            # then we can assume we have found the paper
+            if len(approx) == 4:
+                docCnt = approx
+                break
+
+    # apply a four point perspective transform to both the
+    # original image and grayscale image to obtain a top-down
+    # birds eye view of the paper
+    return four_point_transform(frame, docCnt.reshape(4, 2))
+
+
 def crop_questions(frame, x1, x2, y1, y2):
     hight, width = frame.shape[:2]
     xDim = 210 / width
@@ -56,6 +88,10 @@ def crop_questions(frame, x1, x2, y1, y2):
     x1, x2 = int(x1 / xDim), int(x2 / xDim)
     y1, y2 = int(y1 / yDim), int(y2 / yDim)
     return frame[y1:y2, x1:x2]
+
+
+def crop_input_field(frame, x1, x2, y1, y2):
+    return crop_by_lines(crop_questions(frame, x1, x2, y1, y2))
 
 
 def check_bubbles(thresh):
@@ -134,9 +170,15 @@ def core(str):
                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
 
     # reading names
-    name = crop_questions(black, 35, 150, 15, 25)
-    cv2.imshow("name", name)
+    ID = crop_input_field(black, 75, 143, 2, 17)
+    name = crop_input_field(black, 43, 150, 15, 28)
+    surname = crop_input_field(black, 44, 205, 28, 38)
+    fathername = crop_input_field(black, 44, 205, 28, 50)
+    studycalss = crop_input_field(black, 166, 220, 2, 17)
+
+    cv2.imshow("class", studycalss)
     cv2.waitKey()
+
 
     # reading questions
     answers = check_bubbles(crop_questions(black, 0, 90, 50, 290))
@@ -145,7 +187,7 @@ def core(str):
     i = len(answers)
     for j in other_answers1:
         answers[i] = j[1]
-        i+=1
+        i += 1
     return answers
 
 
