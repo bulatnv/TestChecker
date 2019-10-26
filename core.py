@@ -50,18 +50,15 @@ def crop_by_edges(frame):
 
 
 def crop_questions(frame, x1, x2, y1, y2):
-    return frame[x1:x2, y1:y2]
+    hight, width = frame.shape[:2]
+    xDim = 210 / width
+    yDim = 297 / hight
+    x1, x2 = int(x1 / xDim), int(x2 / xDim)
+    y1, y2 = int(y1 / yDim), int(y2 / yDim)
+    return frame[y1:y2, x1:x2]
 
 
-def check_bubbles(frame):
-    paper_color = crop_by_edges(frame)
-    paper_gray = cv2.cvtColor(paper_color, cv2.COLOR_BGR2GRAY)
-
-    # apply Otsu's thresholding method to binarize the warped
-    # piece of paper
-    thresh = cv2.threshold(paper_gray, 0, 255,
-                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
-
+def check_bubbles(thresh):
     # find contours in the thresholded image, then initialize
     # the list of contours that correspond to questions
     cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
@@ -123,11 +120,22 @@ def check_bubbles(frame):
 
 def core(str):
     image = cv2.imread('123.jpg')
-    questions = crop_questions(image, 270, 900, 190, 430)
-    # cv2.imshow("only questions", questions)
-    # cv2.waitKey()
-    return check_bubbles(image)
+
+    paper_color = crop_by_edges(image)
+    paper_gray = cv2.cvtColor(paper_color, cv2.COLOR_BGR2GRAY)
+
+    # apply Otsu's thresholding method to binarize the warped
+    # piece of paper
+    black = cv2.threshold(paper_gray, 0, 255,
+                           cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
+
+    # cropped = cv2.rectangle(black, (110, 175), (350, 810), (255, 255, 255), 2)
+    cropped = crop_questions(black, 40, 116, 59, 273)
+    cv2.imshow("Binary", cropped)
+    cv2.waitKey()
+
+    return check_bubbles(cropped)
 
 
-# KEYS = core("123.jpg")
-# print(KEYS)
+KEYS = core("123.jpg")
+print(KEYS)
