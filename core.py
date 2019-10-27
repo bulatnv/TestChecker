@@ -193,6 +193,6 @@ def core(str):
     return name, surname, fathername, answers
 
 
-# N, S, F, KEYS = core("scan/tsets1.jpg")
-# print(N, S, F)
-# print(KEYS)
+#N, S, F, KEYS = core("scan/tsets1.jpg")
+#print(N, S, F)
+#print(KEYS)
