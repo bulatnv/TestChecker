@@ -4,7 +4,7 @@ from imutils import contours
 import numpy as np
 import imutils
 import cv2
-from cnn_load_inference import process_letter_field
+from cnn_load_inference import process_letter_field, process_digit_field
 
 
 def rescale_frame(frame, percent=50):
@@ -172,12 +172,14 @@ def core(str):
 
     # reading names
     ID = crop_input_field(black, 75, 143, 2, 17)
-    name = crop_input_field(black, 43, 150, 15, 28)
+    nameFrame = crop_input_field(black, 43, 150, 15, 28)
     surname = crop_input_field(black, 44, 205, 28, 38)
     fathername = crop_input_field(black, 44, 205, 28, 50)
     studycalss = crop_input_field(black, 166, 220, 2, 17)
 
-    name = process_letter_field(name, 12)
+    ID = process_digit_field(ID, 8)
+    studyclass = process_digit_field(studycalss, 4)
+    name = process_letter_field(nameFrame, 12)
     surname = process_letter_field(surname, 20)
     fathername = process_letter_field(fathername, 20)
     # print(name, surname, fathername)
@@ -190,9 +192,9 @@ def core(str):
     for j in other_answers1:
         answers[i] = j[1]
         i += 1
-    return name, surname, fathername, answers
+    return ID, studyclass, name, surname, fathername, answers
 
 
-#N, S, F, KEYS = core("scan/tsets1.jpg")
-#print(N, S, F)
-#print(KEYS)
+ID, C, N, S, F, KEYS = core("scan/tsets1.jpg")
+print(ID, C, N, S, F)
+print(KEYS)
